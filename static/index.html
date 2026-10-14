@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JanRakshak AI | CivicShield Guardian</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @keyframes pulse-glow {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.85; transform: scale(1.02); }
+    }
+    .recording-pulse {
+      animation: pulse-glow 1.5s infinite;
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen font-sans selection:bg-emerald-500/30 selection:text-emerald-300">
+  <!-- Top Navbar -->
+  <header class="border-b border-slate-800 bg-slate-900/90 backdrop-blur sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 py-3 flex flex-wrap items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-emerald-500 via-teal-500 to-cyan-500 flex items-center justify-center font-bold text-slate-950 text-xl shadow-lg shadow-emerald-500/20">
+          🛡️
+        </div>
+        <div>
+          <h1 class="font-bold text-lg tracking-tight text-white flex items-center gap-2">
+            JanRakshak AI
+            <span class="text-[10px] bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-2 py-0.5 rounded-full font-mono uppercase tracking-wider">PromptWars Edition</span>
+          </h1>
+          <p class="text-xs text-slate-400">Multilingual AI Guardian for Verified Public Services & Cyber Safety</p>
+        </div>
+      </div>
+
+      <!-- Controls: Pitch Modal, API Key, Language -->
+      <div class="flex items-center gap-2.5 flex-wrap">
+        <button
+          onclick="toggleArchitectureModal()"
+          class="text-xs bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-slate-700 px-3 py-2 rounded-lg flex items-center gap-1.5 transition cursor-pointer"
+        >
+          <span>🧠</span> Architecture & Pitch
+        </button>
+
+        <div class="relative">
+          <input
+            id="apiKeyInput"
+            type="password"
+            placeholder="Gemini API Key (saved in browser)"
+            class="bg-slate-800/90 border border-slate-700 text-xs rounded-lg px-3 py-2 w-56 text-slate-200 placeholder-slate-500 focus:outline-none focus:border-emerald-500 transition"
+          />
+        </div>
+        <select
+          id="languageSelect"
+          class="bg-slate-800 border border-slate-700 text-xs rounded-lg px-3 py-2 font-medium text-emerald-300 focus:outline-none focus:border-emerald-500 transition cursor-pointer"
+        >
+          <option value="English">🌐 English</option>
+          <option value="Telugu">🌐 తెలుగు (Telugu)</option>
+          <option value="Hindi">🌐 हिन्दी (Hindi)</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Layout -->
+  <main class="max-w-6xl mx-auto px-4 py-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+    <!-- Left Column: Demo Scenarios & Input Form -->
+    <div class="lg:col-span-5 space-y-5">
+      <!-- One-Click Live Hackathon Demos Card -->
+      <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 shadow-xl">
+        <div class="flex items-center justify-between mb-3">
+          <span class="text-xs font-semibold uppercase tracking-wider text-cyan-400 flex items-center gap-1.5">
+            <span>⚡</span> One-Click Live Hackathon Demos
+          </span>
+          <span class="text-[10px] text-slate-500 font-mono">Stage Presets</span>
+        </div>
+        <div class="space-y-2">
+          <button
+            type="button"
+            onclick="loadDemo(1)"
+            class="w-full text-left text-xs bg-slate-800/70 hover:bg-slate-800 border border-slate-700/80 hover:border-rose-500/50 rounded-xl p-3 transition flex items-start gap-3 group"
+          >
+            <span class="text-lg bg-rose-500/10 border border-rose-500/20 p-1.5 rounded-lg shrink-0">🚨</span>
+            <div>
+              <div class="font-semibold text-rose-300 group-hover:text-rose-200 transition">Demo 1: Fake Welfare APK Scam</div>
+              <div class="text-slate-400 text-[11px] mt-0.5">Detects phishing APK trap + redirects to real PM-Kisan / Vidya Deevena portal.</div>
+            </div>
+          </button>
+
+          <button
+            type="button"
+            onclick="loadDemo(2)"
+            class="w-full text-left text-xs bg-slate-800/70 hover:bg-slate-800 border border-slate-700/80 hover:border-emerald-500/50 rounded-xl p-3 transition flex items-start gap-3 group"
+          >
+            <span class="text-lg bg-emerald-500/10 border border-emerald-500/20 p-1.5 rounded-lg shrink-0">🏛️</span>
+            <div>
+              <div class="font-semibold text-emerald-300 group-hover:text-emerald-200 transition">Demo 2: Citizen Scheme Navigator</div>
+              <div class="text-slate-400 text-[11px] mt-0.5">Simplifies government education & farming subsidies for a 12th pass student.</div>
+            </div>
+          </button>
+
+          <button
+            type="button"
+            onclick="loadDemo(3)"
+            class="w-full text-left text-xs bg-slate-800/70 hover:bg-slate-800 border border-slate-700/80 hover:border-amber-500/50 rounded-xl p-3 transition flex items-start gap-3 group"
+          >
+            <span class="text-lg bg-amber-500/10 border border-amber-500/20 p-1.5 rounded-lg shrink-0">🚓</span>
+            <div>
+              <div class="font-semibold text-amber-300 group-hover:text-amber-200 transition">Demo 3: "Digital Arrest" & UPI Extortion</div>
+              <div class="text-slate-400 text-[11px] mt-0.5">Generates Golden-Hour 1930 Cybercrime Incident Report & Bank Freeze draft.</div>
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <!-- Unified Triage Input Form -->
+      <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl space-y-4">
+        <div class="flex items-center justify-between">
+          <label class="text-sm font-semibold text-white flex items-center gap-2">
+            <span>🛡️</span> Unified Civic & Cyber Input
+          </label>
+          <button
+            type="button"
+            onclick="toggleVoiceInput()"
+            id="micBtn"
+            class="text-xs bg-slate-800 hover:bg-slate-700 text-cyan-300 border border-slate-700 px-3 py-1.5 rounded-lg flex items-center gap-1.5 transition cursor-pointer"
+          >
+            <span id="micIcon">🎙️</span>
+            <span id="micText">Speak</span>
+          </button>
+        </div>
+
+        <textarea
+          id="userInput"
+          rows="5"
+          placeholder="Paste a suspicious SMS/WhatsApp forward, ask about a government scheme, or describe an active cyber fraud incident..."
+          class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-sm text-slate-100 focus:outline-none focus:border-emerald-500 transition resize-none leading-relaxed placeholder-slate-600"
+        ></textarea>
+
+        <!-- Screenshot Upload -->
+        <div class="border border-dashed border-slate-700/80 hover:border-slate-600 rounded-xl p-3 bg-slate-950/60 transition">
+          <div class="flex items-center justify-between mb-1">
+            <label class="block text-xs text-slate-400 font-medium">📷 Optional: Upload Screenshot or Notice</label>
+            <button type="button" id="clearImageBtn" onclick="clearImage()" class="text-[11px] text-slate-500 hover:text-rose-400 hidden cursor-pointer">Clear</button>
+          </div>
+          <input
+            id="imageInput"
+            type="file"
+            accept="image/*"
+            onchange="previewImage(this)"
+            class="text-xs text-slate-400 file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-slate-800 file:text-emerald-300 hover:file:bg-slate-700 cursor-pointer w-full"
+          />
+          <div id="imagePreviewContainer" class="mt-2 hidden">
+            <img id="imagePreview" src="" alt="Screenshot Preview" class="max-h-32 rounded-lg border border-slate-700 object-contain bg-black/40 mx-auto" />
+          </div>
+
+          <!-- Quick Sample Images for Stage Presentation -->
+          <div class="flex items-center gap-2 mt-2 pt-2 border-t border-slate-800/80 text-[11px]">
+            <span class="text-slate-500">Quick Samples:</span>
+            <button type="button" onclick="loadSampleImage('/demo_assets/fake_pmkisan_whatsapp.png', 'WhatsApp APK Scam Alert')" class="text-emerald-400 hover:text-emerald-300 underline cursor-pointer">🖼️ WhatsApp APK</button>
+            <button type="button" onclick="loadSampleImage('/demo_assets/fake_electricity_sms.png', 'Electricity Disconnection SMS')" class="text-amber-400 hover:text-amber-300 underline cursor-pointer">⚡ Power Cutoff</button>
+          </div>
+        </div>
+
+        <!-- Action Button -->
+        <button
+          onclick="analyzeNow()"
+          id="analyzeBtn"
+          class="w-full bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-slate-950 font-bold py-3.5 rounded-xl shadow-lg shadow-emerald-500/20 transition flex items-center justify-center gap-2 text-sm tracking-wide cursor-pointer"
+        >
+          <span>🔍</span> Run Multi-Agent Verification
+        </button>
+      </div>
+    </div>
+
+    <!-- Right Column: Multi-Agent Triage Dashboard -->
+    <div class="lg:col-span-7 space-y-5">
+      <!-- Empty State -->
+      <div id="emptyState" class="bg-slate-900/60 border border-slate-800/80 rounded-2xl p-10 text-center space-y-4">
+        <div class="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-emerald-500/10 via-cyan-500/10 to-transparent border border-slate-700/50 flex items-center justify-center text-3xl">
+          🛡️
+        </div>
+        <h2 class="text-lg font-bold text-white">Three Intelligent Agents Ready on Standby</h2>
+        <p class="text-xs text-slate-400 max-w-md mx-auto leading-relaxed">
+          Select one of the live demo scenarios on the left or enter your own query. JanRakshak AI will orchestrate:
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2 text-left max-w-lg mx-auto">
+          <div class="bg-slate-950/70 border border-slate-800 p-3 rounded-xl">
+            <div class="text-rose-400 font-semibold text-xs mb-1">1. Forensic Scam Shield</div>
+            <div class="text-[11px] text-slate-400">Detects phishing APKs, UPI traps, & fake notices.</div>
+          </div>
+          <div class="bg-slate-950/70 border border-slate-800 p-3 rounded-xl">
+            <div class="text-emerald-400 font-semibold text-xs mb-1">2. Scheme Navigator</div>
+            <div class="text-[11px] text-slate-400">Cross-references genuine welfare portals.</div>
+          </div>
+          <div class="bg-slate-950/70 border border-slate-800 p-3 rounded-xl">
+            <div class="text-amber-400 font-semibold text-xs mb-1">3. 1930 Emergency Drafter</div>
+            <div class="text-[11px] text-slate-400">Prepares immediate cybercrime FIRs for golden-hour recovery.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Loading State -->
+      <div id="loadingState" class="hidden bg-slate-900 border border-slate-800 rounded-2xl p-10 text-center space-y-4">
+        <div class="w-14 h-14 mx-auto rounded-full border-4 border-emerald-500/20 border-t-emerald-400 animate-spin"></div>
+        <div class="text-sm font-semibold text-emerald-300">Gemini Multi-Agent Router in Progress...</div>
+        <div class="text-xs text-slate-400 max-w-xs mx-auto">
+          Evaluating phishing signatures • Verifying government eligibility • Drafting protection guidelines
+        </div>
+      </div>
+
+      <!-- Result Container -->
+      <div id="resultContainer" class="hidden space-y-5">
+        <!-- 1. Traffic Light Verdict Banner -->
+        <div id="verdictBanner" class="rounded-2xl p-5 border shadow-xl transition-all">
+          <div class="flex items-start justify-between gap-3">
+            <div>
+              <div class="flex items-center gap-2">
+                <span id="intentBadge" class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-black/40 border border-white/10"></span>
+                <span id="riskBadge" class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full"></span>
+              </div>
+              <h2 id="verdictTitle" class="text-xl font-bold mt-2 text-white"></h2>
+            </div>
+            <button
+              onclick="speakResult()"
+              id="ttsBtn"
+              class="text-xs bg-black/40 hover:bg-black/60 text-slate-200 px-3 py-1.5 rounded-lg border border-white/10 shrink-0 flex items-center gap-1.5 transition cursor-pointer"
+            >
+              <span>🔊</span> Listen
+            </button>
+          </div>
+
+          <p id="verdictExplanation" class="text-sm mt-3 leading-relaxed text-slate-200"></p>
+
+          <!-- Red Flags Box -->
+          <div id="redFlagsBox" class="mt-4 pt-3.5 border-t border-white/10 hidden">
+            <div class="text-xs font-bold uppercase tracking-wider text-rose-300 mb-2 flex items-center gap-1.5">
+              <span>🚩</span> Detected Threat & Manipulation Indicators:
+            </div>
+            <ul id="redFlagsList" class="text-xs space-y-1.5 text-slate-300 list-disc list-inside"></ul>
+          </div>
+        </div>
+
+        <!-- 2. Verified Government Scheme Redirect Card -->
+        <div id="schemeCard" class="hidden bg-slate-900/90 border border-emerald-500/40 rounded-2xl p-5 shadow-xl space-y-4">
+          <div class="flex items-start justify-between gap-3">
+            <div class="flex items-center gap-2">
+              <span class="text-xl">🏛️</span>
+              <div>
+                <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-md">Official Public Service</span>
+                <h3 id="schemeName" class="text-lg font-bold text-white mt-1"></h3>
+              </div>
+            </div>
+            <a
+              id="schemePortalLink"
+              href="#"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="text-xs bg-emerald-500/20 hover:bg-emerald-500/30 text-emerald-300 border border-emerald-500/40 px-3 py-1.5 rounded-lg font-medium transition flex items-center gap-1 cursor-pointer"
+            >
+              Visit Portal ↗
+            </a>
+          </div>
+
+          <div>
+            <div class="text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">3-Point Simplified Eligibility:</div>
+            <ul id="schemeEligibility" class="text-xs space-y-1.5 text-slate-300 list-disc list-inside bg-slate-950/50 p-3 rounded-xl border border-slate-800"></ul>
+          </div>
+
+          <div>
+            <div class="text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">Safe Official Application Steps:</div>
+            <ol id="schemeSteps" class="text-xs space-y-1 text-slate-300 list-decimal list-inside bg-slate-950/50 p-3 rounded-xl border border-slate-800"></ol>
+          </div>
+        </div>
+
+        <!-- 3. 1930 Cybercrime Emergency Response Card -->
+        <div id="emergencyCard" class="hidden bg-slate-900/90 border border-amber-500/40 rounded-2xl p-5 shadow-xl space-y-4">
+          <div class="flex items-start justify-between gap-3 flex-wrap">
+            <div class="flex items-center gap-2">
+              <span class="text-xl">🚓</span>
+              <div>
+                <span class="text-[10px] font-bold uppercase tracking-wider text-amber-400 bg-amber-500/10 border border-amber-500/20 px-2 py-0.5 rounded-md">National Cyber Crime Helpline (1930)</span>
+                <h3 id="emergencyCategory" class="text-base font-bold text-white mt-1"></h3>
+              </div>
+            </div>
+            <div class="flex items-center gap-2">
+              <button
+                onclick="copyIncidentReport()"
+                id="copyReportBtn"
+                class="text-xs bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/40 px-3 py-1.5 rounded-lg font-medium transition flex items-center gap-1 cursor-pointer"
+              >
+                📋 Copy Report
+              </button>
+              <button
+                onclick="downloadIncidentReport()"
+                class="text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 px-3 py-1.5 rounded-lg font-medium transition flex items-center gap-1 cursor-pointer"
+              >
+                💾 Download (.txt)
+              </button>
+            </div>
+          </div>
+
+          <!-- Suspect Identifiers -->
+          <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800">
+            <div class="text-[11px] font-semibold text-amber-300 uppercase tracking-wider mb-1">Suspect Identifiers (URLs, Phone, UPI IDs):</div>
+            <div id="emergencySuspects" class="text-xs font-mono text-slate-300 break-all"></div>
+          </div>
+
+          <!-- Official Draft -->
+          <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800">
+            <div class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1">Pre-Drafted Incident Summary (English - for cybercrime.gov.in):</div>
+            <p id="emergencySummary" class="text-xs text-slate-300 leading-relaxed font-sans"></p>
+          </div>
+
+          <!-- Golden Hour Checklist -->
+          <div>
+            <div class="text-xs font-semibold text-rose-300 uppercase tracking-wider mb-2">⚡ Golden-Hour Emergency Checklist:</div>
+            <ul id="emergencyChecklist" class="text-xs space-y-1.5 text-slate-300 list-disc list-inside bg-rose-950/20 border border-rose-500/30 p-3 rounded-xl"></ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Architecture & Pitch Spec Modal -->
+  <div id="architectureModal" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-700 rounded-2xl max-w-3xl w-full max-h-[90vh] overflow-y-auto p-6 shadow-2xl space-y-5">
+      <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <h2 class="text-lg font-bold text-white flex items-center gap-2">
+          <span>🧠</span> Multi-Agent Architecture & PromptWars Pitch
+        </h2>
+        <button onclick="toggleArchitectureModal()" class="text-slate-400 hover:text-white text-lg font-bold px-2 cursor-pointer">&times;</button>
+      </div>
+
+      <div class="space-y-4 text-xs text-slate-300">
+        <div>
+          <h3 class="text-sm font-semibold text-cyan-400 mb-1">1. The Multi-Agent Router (Gemini Flash + Structured JSON)</h3>
+          <p class="leading-relaxed">
+            JanRakshak AI utilizes a single high-efficiency Gemini call configured with Pydantic typed schema (<code class="bg-slate-950 px-1 py-0.5 rounded text-emerald-300">CivicShieldResponse</code>). This enforces 100% parseable structured outputs with zero runtime deserialization crashes on stage.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+          <div class="bg-slate-950 p-3 rounded-xl border border-rose-500/30">
+            <div class="font-bold text-rose-400 mb-1">Forensic Shield</div>
+            <p class="text-[11px] text-slate-400">Scans URLs, APK payloads, urgency manipulation, and "Digital Arrest" threats.</p>
+          </div>
+          <div class="bg-slate-950 p-3 rounded-xl border border-emerald-500/30">
+            <div class="font-bold text-emerald-400 mb-1">Civic Navigator</div>
+            <p class="text-[11px] text-slate-400">Cross-checks genuine Central & State welfare schemes and distills 20-page circulars to 3 bullet points.</p>
+          </div>
+          <div class="bg-slate-950 p-3 rounded-xl border border-amber-500/30">
+            <div class="font-bold text-amber-400 mb-1">1930 Emergency Drafter</div>
+            <p class="text-[11px] text-slate-400">Drafts formal cybercrime reports and initiates Golden-Hour bank freeze workflows.</p>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="text-sm font-semibold text-cyan-400 mb-1">2. Why It Solves a Neglected Crisis</h3>
+          <p class="leading-relaxed">
+            While most hackathon teams tackle generic chatbots, millions of Indian citizens face catastrophic losses because of the <strong>Scheme Literacy Gap</strong> weaponized by organized cyber syndicates. JanRakshak AI turns scams into an on-ramp for verified government support.
+          </p>
+        </div>
+
+        <div>
+          <h3 class="text-sm font-semibold text-cyan-400 mb-1">3. Tech Stack Specs</h3>
+          <ul class="list-disc list-inside space-y-1 text-slate-400">
+            <li><strong>AI Foundation:</strong> Gemini Models via official <code class="text-emerald-300">google-genai</code> SDK.</li>
+            <li><strong>Backend:</strong> Python FastAPI asynchronous server with Pydantic validation.</li>
+            <li><strong>Frontend:</strong> TailwindCSS Single-Page Dashboard with Web Speech API (ASR + TTS).</li>
+            <li><strong>Offline Resiliency:</strong> High-fidelity local fallback presets for flawless offline demonstration.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="pt-3 border-t border-slate-800 text-right">
+        <button onclick="toggleArchitectureModal()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 px-4 py-2 rounded-xl text-xs font-semibold transition cursor-pointer">
+          Close Spec
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Notification Toast -->
+  <div id="toast" class="fixed bottom-4 right-4 bg-slate-900 border border-slate-700 text-slate-200 text-xs px-4 py-2.5 rounded-xl shadow-2xl transition transform translate-y-12 opacity-0 pointer-events-none z-50"></div>
+
+  <!-- Client-side Logic -->
+  <script>
+    let activeDemoId = null;
+    let recognition = null;
+    let isRecording = false;
+    let latestResponseData = null;
+
+    // Load saved preferences
+    window.addEventListener("DOMContentLoaded", () => {
+      const savedKey = localStorage.getItem("janrakshak_gemini_key");
+      if (savedKey) {
+        document.getElementById("apiKeyInput").value = savedKey;
+      }
+      const savedLang = localStorage.getItem("janrakshak_language");
+      if (savedLang) {
+        document.getElementById("languageSelect").value = savedLang;
+      }
+    });
+
+    document.getElementById("apiKeyInput").addEventListener("change", (e) => {
+      localStorage.setItem("janrakshak_gemini_key", e.target.value.trim());
+    });
+
+    document.getElementById("languageSelect").addEventListener("change", (e) => {
+      localStorage.setItem("janrakshak_language", e.target.value);
+    });
+
+    function toggleArchitectureModal() {
+      const modal = document.getElementById("architectureModal");
+      modal.classList.toggle("hidden");
+    }
+
+    // Preset Demo Scenarios
+    const DEMO_TEXTS = {
+      1: "Urgent Govt Alert! PM-Kisan & Vidya Deevena beneficiary installment approved. Download official AP-Kisan App directly: http://pmkisan-direct-claim.apk to claim ₹5,000 immediately within 24 hours.",
+      2: "My daughter just completed 12th grade in Andhra Pradesh with good marks. We are from a middle-class farming family. What official government scholarships and fee reimbursements can we apply for safely?",
+      3: "Emergency: I received a WhatsApp video call from someone in police uniform claiming to be CBI officers from Mumbai. They said a parcel with narcotics was registered in my Aadhaar name and put me under 'Digital Arrest'. They forced me to transfer ₹15,000 via UPI to a verification account and are demanding more."
+    };
+
+    function loadDemo(id) {
+      activeDemoId = id.toString();
+      document.getElementById("userInput").value = DEMO_TEXTS[id];
+      showToast(`Loaded Demo ${id} preset scenario.`);
+      analyzeNow();
+    }
+
+    // Image preview handling
+    function previewImage(input) {
+      const container = document.getElementById("imagePreviewContainer");
+      const preview = document.getElementById("imagePreview");
+      const clearBtn = document.getElementById("clearImageBtn");
+
+      if (input.files && input.files[0]) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          preview.src = e.target.result;
+          container.classList.remove("hidden");
+          clearBtn.classList.remove("hidden");
+        };
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+
+    function clearImage() {
+      const input = document.getElementById("imageInput");
+      input.value = "";
+      document.getElementById("imagePreviewContainer").classList.add("hidden");
+      document.getElementById("clearImageBtn").classList.add("hidden");
+    }
+
+    // Load sample image directly for stage demonstration
+    async function loadSampleImage(url, title) {
+      try {
+        const res = await fetch(url);
+        const blob = await res.blob();
+        const file = new File([blob], url.split("/").pop(), { type: blob.type || "image/png" });
+        const container = document.getElementById("imagePreviewContainer");
+        const preview = document.getElementById("imagePreview");
+        const clearBtn = document.getElementById("clearImageBtn");
+
+        preview.src = url;
+        container.classList.remove("hidden");
+        clearBtn.classList.remove("hidden");
+
+        const dataTransfer = new DataTransfer();
+        dataTransfer.items.add(file);
+        document.getElementById("imageInput").files = dataTransfer.files;
+
+        if (url.includes("whatsapp")) {
+          document.getElementById("userInput").value = "Verify this WhatsApp screenshot offering PM-Kisan scheme APK file.";
+        } else if (url.includes("electricity")) {
+          document.getElementById("userInput").value = "Is this electricity power disconnection SMS genuine?";
+        }
+        showToast(`Loaded ${title} sample image!`);
+      } catch (e) {
+        showToast("Error loading sample image: " + e.message);
+      }
+    }
+
+    // Speech-to-Text with Web Speech API
+    function toggleVoiceInput() {
+      const micBtn = document.getElementById("micBtn");
+      const micText = document.getElementById("micText");
+      const language = document.getElementById("languageSelect").value;
+
+      if (!("webkitSpeechRecognition" in window) && !("SpeechRecognition" in window)) {
+        alert("Web Speech API is not supported in this browser. Please use Chrome, Edge, or Safari.");
+        return;
+      }
+
+      if (isRecording) {
+        if (recognition) recognition.stop();
+        isRecording = false;
+        micBtn.classList.remove("bg-rose-500", "recording-pulse");
+        micText.innerText = "Speak";
+        return;
+      }
+
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      recognition = new SpeechRecognition();
+      recognition.continuous = false;
+      recognition.interimResults = false;
+
+      // Language selection for ASR
+      if (language === "Telugu") {
+        recognition.lang = "te-IN";
+      } else if (language === "Hindi") {
+        recognition.lang = "hi-IN";
+      } else {
+        recognition.lang = "en-IN";
+      }
+
+      recognition.onstart = () => {
+        isRecording = true;
+        micBtn.classList.add("bg-rose-500", "recording-pulse");
+        micText.innerText = "Listening...";
+      };
+
+      recognition.onresult = (event) => {
+        const transcript = event.results[0][0].transcript;
+        const currentVal = document.getElementById("userInput").value;
+        document.getElementById("userInput").value = currentVal ? currentVal + " " + transcript : transcript;
+        showToast("Voice input captured!");
+      };
+
+      recognition.onerror = (event) => {
+        console.error("Speech Recognition Error:", event.error);
+        showToast("Microphone error: " + event.error);
+      };
+
+      recognition.onend = () => {
+        isRecording = false;
+        micBtn.classList.remove("bg-rose-500", "recording-pulse");
+        micText.innerText = "Speak";
+      };
+
+      recognition.start();
+    }
+
+    // Submit Analysis to Backend
+    async function analyzeNow() {
+      const textInput = document.getElementById("userInput").value.trim();
+      const imageInput = document.getElementById("imageInput");
+      const language = document.getElementById("languageSelect").value;
+      const apiKey = document.getElementById("apiKeyInput").value.trim();
+
+      if (!textInput && (!imageInput.files || !imageInput.files[0]) && !activeDemoId) {
+        alert("Please enter text, upload a screenshot, or click one of the Demo presets.");
+        return;
+      }
+
+      // UI State: Loading
+      document.getElementById("emptyState").classList.add("hidden");
+      document.getElementById("resultContainer").classList.add("hidden");
+      document.getElementById("loadingState").classList.remove("hidden");
+      document.getElementById("analyzeBtn").disabled = true;
+
+      const formData = new FormData();
+      formData.append("text_input", textInput);
+      formData.append("language", language);
+      formData.append("api_key", apiKey);
+      if (activeDemoId) {
+        formData.append("demo_id", activeDemoId);
+      }
+      if (imageInput.files && imageInput.files[0]) {
+        formData.append("image", imageInput.files[0]);
+      }
+
+      try {
+        const response = await fetch("/api/analyze", {
+          method: "POST",
+          body: formData,
+        });
+
+        if (!response.ok) {
+          const errData = await response.json();
+          throw new Error(errData.detail || "Server failed to process request");
+        }
+
+        const data = await response.json();
+        latestResponseData = data;
+        renderResults(data);
+      } catch (err) {
+        alert("Analysis Error: " + err.message);
+        document.getElementById("emptyState").classList.remove("hidden");
+      } finally {
+        document.getElementById("loadingState").classList.add("hidden");
+        document.getElementById("analyzeBtn").disabled = false;
+      }
+    }
+
+    // Render the structured multi-agent response
+    function renderResults(data) {
+      document.getElementById("resultContainer").classList.remove("hidden");
+
+      // 1. Verdict Banner Styling based on risk level
+      const banner = document.getElementById("verdictBanner");
+      const riskBadge = document.getElementById("riskBadge");
+      const intentBadge = document.getElementById("intentBadge");
+
+      banner.className = "rounded-2xl p-5 border shadow-xl transition-all";
+      if (data.risk_level === "RED_SCAM") {
+        banner.classList.add("bg-rose-950/30", "border-rose-500/50");
+        riskBadge.className = "text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/40";
+        riskBadge.innerText = "CRITICAL RISK";
+      } else if (data.risk_level === "YELLOW_SUSPICIOUS") {
+        banner.classList.add("bg-amber-950/30", "border-amber-500/50");
+        riskBadge.className = "text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40";
+        riskBadge.innerText = "SUSPICIOUS / UNVERIFIED";
+      } else {
+        banner.classList.add("bg-emerald-950/30", "border-emerald-500/50");
+        riskBadge.className = "text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40";
+        riskBadge.innerText = "VERIFIED SAFE";
+      }
+
+      intentBadge.innerText = data.intent.replace("_", " ");
+      document.getElementById("verdictTitle").innerText = data.verdict_title;
+      document.getElementById("verdictExplanation").innerText = data.explanation;
+
+      // Red flags
+      const redFlagsBox = document.getElementById("redFlagsBox");
+      const redFlagsList = document.getElementById("redFlagsList");
+      redFlagsList.innerHTML = "";
+      if (data.red_flags && data.red_flags.length > 0) {
+        redFlagsBox.classList.remove("hidden");
+        data.red_flags.forEach(flag => {
+          const li = document.createElement("li");
+          li.innerText = flag;
+          redFlagsList.appendChild(li);
+        });
+      } else {
+        redFlagsBox.classList.add("hidden");
+      }
+
+      // 2. Scheme Redirect Card
+      const schemeCard = document.getElementById("schemeCard");
+      if (data.verified_scheme_redirect) {
+        const scheme = data.verified_scheme_redirect;
+        schemeCard.classList.remove("hidden");
+        document.getElementById("schemeName").innerText = scheme.scheme_name;
+        const portalLink = document.getElementById("schemePortalLink");
+        portalLink.href = scheme.official_portal.startsWith("http") ? scheme.official_portal : "https://" + scheme.official_portal;
+        portalLink.innerText = "Visit " + scheme.official_portal.replace("https://", "").replace("http://", "") + " ↗";
+
+        const eligList = document.getElementById("schemeEligibility");
+        eligList.innerHTML = "";
+        scheme.eligibility_bullets.forEach(b => {
+          const li = document.createElement("li");
+          li.innerText = b;
+          eligList.appendChild(li);
+        });
+
+        const stepList = document.getElementById("schemeSteps");
+        stepList.innerHTML = "";
+        scheme.safe_application_steps.forEach(s => {
+          const li = document.createElement("li");
+          li.innerText = s;
+          stepList.appendChild(li);
+        });
+      } else {
+        schemeCard.classList.add("hidden");
+      }
+
+      // 3. 1930 Cybercrime Emergency Card
+      const emergencyCard = document.getElementById("emergencyCard");
+      if (data.cybercrime_1930_draft) {
+        const draft = data.cybercrime_1930_draft;
+        emergencyCard.classList.remove("hidden");
+        document.getElementById("emergencyCategory").innerText = draft.incident_category;
+        document.getElementById("emergencySuspects").innerText = draft.suspect_identifiers || "Not specified";
+        document.getElementById("emergencySummary").innerText = draft.incident_summary;
+
+        const checkList = document.getElementById("emergencyChecklist");
+        checkList.innerHTML = "";
+        draft.immediate_checklist.forEach(c => {
+          const li = document.createElement("li");
+          li.innerText = c;
+          checkList.appendChild(li);
+        });
+      } else {
+        emergencyCard.classList.add("hidden");
+      }
+    }
+
+    // Text-to-Speech Output
+    function speakResult() {
+      if (!latestResponseData) return;
+      if (!("speechSynthesis" in window)) {
+        alert("Text-to-Speech is not supported in this browser.");
+        return;
+      }
+
+      window.speechSynthesis.cancel();
+
+      const textToSpeak = `${latestResponseData.verdict_title}. ${latestResponseData.explanation}`;
+      const utterance = new SpeechSynthesisUtterance(textToSpeak);
+      const language = document.getElementById("languageSelect").value;
+
+      if (language === "Telugu") {
+        utterance.lang = "te-IN";
+      } else if (language === "Hindi") {
+        utterance.lang = "hi-IN";
+      } else {
+        utterance.lang = "en-IN";
+      }
+
+      utterance.rate = 0.95;
+      window.speechSynthesis.speak(utterance);
+      showToast("Playing spoken audio summary...");
+    }
+
+    // Copy Formal 1930 Cybercrime Report
+    function copyIncidentReport() {
+      if (!latestResponseData || !latestResponseData.cybercrime_1930_draft) return;
+      const draft = latestResponseData.cybercrime_1930_draft;
+      const reportText = `NATIONAL CYBER CRIME REPORTING PORTAL (1930) - INCIDENT DRAFT
+Category: ${draft.incident_category}
+Suspect Identifiers: ${draft.suspect_identifiers}
+
+Incident Summary:
+${draft.incident_summary}
+
+Golden-Hour Actions:
+${draft.immediate_checklist.join("\n- ")}
+`;
+      navigator.clipboard.writeText(reportText).then(() => {
+        showToast("Copied 1930 Incident Draft to clipboard!");
+      });
+    }
+
+    // Download Formal 1930 Cybercrime Report (.txt)
+    function downloadIncidentReport() {
+      if (!latestResponseData || !latestResponseData.cybercrime_1930_draft) return;
+      const draft = latestResponseData.cybercrime_1930_draft;
+      const reportText = `=====================================================
+NATIONAL CYBER CRIME REPORTING PORTAL (HELPLINE 1930)
+OFFICIAL INCIDENT REPORT DRAFT - JANRAKSHAK AI
+=====================================================
+
+Date of Generation: ${new Date().toLocaleString()}
+Incident Category:  ${draft.incident_category}
+Suspect Identifiers: ${draft.suspect_identifiers}
+
+MODUS OPERANDI & INCIDENT SUMMARY:
+${draft.incident_summary}
+
+GOLDEN-HOUR IMMEDIATE ACTION CHECKLIST:
+${draft.immediate_checklist.map((item, idx) => `${idx + 1}. ${item}`).join("\n")}
+
+=====================================================
+Next Action: Call 1930 immediately or lodge this on https://cybercrime.gov.in
+`;
+      const blob = new Blob([reportText], { type: "text/plain;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `Cybercrime_1930_Report_${Date.now()}.txt`;
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast("Downloaded 1930 Incident Draft (.txt)!");
+    }
+
+    // Toast helper
+    function showToast(msg) {
+      const toast = document.getElementById("toast");
+      toast.innerText = msg;
+      toast.classList.remove("translate-y-12", "opacity-0", "pointer-events-none");
+      setTimeout(() => {
+        toast.classList.add("translate-y-12", "opacity-0", "pointer-events-none");
+      }, 3000);
+    }
+  </script>
+</body>
+</html>
