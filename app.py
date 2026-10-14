@@ -263,8 +263,147 @@ def analyze_custom_dynamically(text: str, language: str, image_name: Optional[st
             )
         )
 
-    # Category 4: Government Welfare / Subsidy / Scholarship Query (Safe / Legitimate)
-    elif any(k in t for k in ["scholarship", "scheme", "subsidy", "farmer", "kisan", "vidya deevena", "college", "fees", "student", "daughter", "education", "pm-kisan", "pm awas", "housing", "ration", "ayushman"]):
+    # Category 4: Government Welfare / Subsidy / Scholarship / B.Tech Student Fee Burden Query (Safe / Legitimate)
+    elif any(k in t for k in ["btech", "b.tech", "engineering", "schlolership", "scholarship", "scheme", "subsidy", "farmer", "kisan", "vidya deevena", "college", "fees", "fee", "tuition", "burden", "student", "daughter", "education", "pm-kisan", "pm awas", "housing", "ration", "ayushman"]):
+        is_btech = any(k in t for k in ["btech", "b.tech", "engineering", "college", "fees", "burden", "tuition", "degree"])
+        
+        if is_btech:
+            scheme_title = "B.Tech & Higher Education Fee Reimbursement (Vidya Deevena & NSP)"
+            portal = "https://jnanabhumi.ap.gov.in"
+            
+            if selected_lang == "Telugu":
+                return CivicShieldResponse(
+                    intent="SCHEME_QUERY",
+                    risk_level="GREEN_SAFE",
+                    plain_takeaway="✅ పూర్తి ఫీజు రీయింబర్స్‌మెంట్ అందుబాటులో ఉంది: B.Tech విద్యార్థుల కోసం 'జగనన్న విద్యా దీవెన' పూర్తి కాలేజ్ ఫీజును చెల్లిస్తుంది. మీరు ఒక్క రూపాయి కూడా అప్పు చేయాల్సిన అవసరం లేదు.",
+                    analysis_engine="JanRakshak Dynamic Intelligence Engine",
+                    query_summary="B.Tech 2వ సంవత్సరం ఫీజు భారం & స్కాలర్‌షిప్ సమాచారం",
+                    verdict_title="🏛️ B.Tech విద్యార్థుల కోసం ధృవీకరించబడిన ప్రభుత్వ ఫీజు రీయింబర్స్‌మెంట్ మార్గదర్శి",
+                    explanation="మీరు B.Tech రెండవ సంవత్సరంలో ఫీజు భారం భరించలేకపోతున్న పరిస్థితిని ప్రభుత్వం గుర్తించింది. కన్వీనర్ కోటా ద్వారా ఇంజనీరింగ్ కోర్సుల్లో ప్రవేశం పొందిన విద్యార్థుల కోసం ఆంధ్రప్రదేశ్ ప్రభుత్వం 'జగనన్న విద్యా దీవెన' పథకం ద్వారా 100% పూర్తి ట్యూషన్ ఫీజును రీయింబర్స్ చేస్తుంది.\n\nదీనితో పాటు హాస్టల్ మరియు భోజన ఖర్చుల కోసం 'జగనన్న వసతి దీవెన' ద్వారా ఏటా ₹20,000 వరకు నేరుగా విద్యార్థి తల్లి బ్యాంక్ ఖాతాలో జమ చేయబడుతుంది. అలాగే కేంద్ర ప్రభుత్వ 'నేషనల్ స్కాలర్‌షిప్ పోర్టల్ (NSP)' మరియు ఏఐసీటీఈ (AICTE) ద్వారా కూడా సాంకేతిక విద్య చదివే పేద విద్యార్థులకు ప్రత్యేక ఉపకార వేతనాలు లభిస్తాయి. మీరు ప్రైవేట్ వ్యక్తులకు లేదా దళారులకు ఎటువంటి రుసుము చెల్లించాల్సిన పనిలేదు.",
+                    red_flags=[],
+                    solution_pathways=[
+                        SolutionPathway(
+                            title="కాలేజీ స్కాలర్‌షిప్ డెస్క్ వద్ద 2వ సంవత్సరం రెన్యూవల్",
+                            action_type="OFFICIAL_PORTAL",
+                            step_by_step=[
+                                "మీ ఇంజనీరింగ్ కాలేజీ అడ్మినిస్ట్రేషన్ ఆఫీస్‌లోని స్కాలర్‌షిప్ సెక్షన్‌ను కలవండి.",
+                                "B.Tech 1వ సంవత్సరం మార్కుల మెమో, అడ్మిషన్ అలాట్‌మెంట్ లెటర్ మరియు ఫీజు రసీదు సమర్పించండి.",
+                                "కాలేజ్ జ్ఞానభూమి (JnanaBhumi) పోర్టల్‌లో మీ 2వ సంవత్సరం రెన్యూవల్ డేటా ఎంటర్ చేసిందో లేదో సరిచూసుకోండి."
+                            ],
+                            contact_or_link="మీ కాలేజీ ప్రిన్సిపాల్ / స్కాలర్‌షిప్ డెస్క్"
+                        ),
+                        SolutionPathway(
+                            title="గ్రామ/వార్డు సచివాలయం ద్వారా నవశకం వెరిఫికేషన్",
+                            action_type="OFFICIAL_PORTAL",
+                            step_by_step=[
+                                "మీ గ్రామ లేదా వార్డు సచివాలయంలోని 'ఎడ్యుకేషన్ & వెల్ఫేర్ అసిస్టెంట్'ను కలవండి.",
+                                "కుటుంబ వార్షిక ఆదాయం ₹2.5 లక్షల లోపు ఉందని ధృవీకరించే రేషన్ కార్డ్ / ఇన్కమ్ సర్టిఫికెట్ మరియు ఆధార్ కార్డు ఇవ్వండి.",
+                                "సచివాలయ సిబ్బంది మీ పేరును విద్యా దీవెన లబ్ధిదారుల జాబితాలో నమోదు చేస్తారు."
+                            ],
+                            contact_or_link="గ్రామ/వార్డు సచివాలయం / హెల్ప్‌లైన్: 1902"
+                        ),
+                        SolutionPathway(
+                            title="నేషనల్ స్కాలర్‌షిప్ పోర్టల్ (NSP & AICTE) ద్వారా దరఖాస్తు",
+                            action_type="OFFICIAL_PORTAL",
+                            step_by_step=[
+                                "కేంద్ర ప్రభుత్వ పోర్టల్ https://scholarships.gov.in ను సందర్శించండి.",
+                                "AICTE టెక్నికల్ స్కాలర్‌షిప్ లేదా Central Sector Scheme లో రిజిస్టర్ చేసుకోండి.",
+                                "ఏటా ₹50,000 వరకు అదనపు సాంకేతిక విద్యా గ్రాంట్ పొందే అవకాశం ఉంటుంది."
+                            ],
+                            contact_or_link="NSP అధికారిక పోర్టల్: scholarships.gov.in"
+                        ),
+                        SolutionPathway(
+                            title="సర్టిఫికెట్లు ఆపితే విద్యార్థి హక్కుల రక్షణ",
+                            action_type="LEGAL_POLICE",
+                            step_by_step=[
+                                "ప్రభుత్వ నిబంధనల ప్రకారం, ఫీజు రీయింబర్స్‌మెంట్ ఆలస్యమైనంత మాత్రాన ఏ ప్రైవేట్ ఇంజనీరింగ్ కాలేజీ కూడా విద్యార్థిని పరీక్షలకు అనుమతించకుండా ఆపకూడదు.",
+                                "కాలేజ్ యాజమాన్యం ఒత్తిడి తెస్తే వెంటనే స్పందన టోల్‌ఫ్రీ నంబర్ 1902 కి కాల్ చేసి ఫిర్యాదు చేయండి."
+                            ],
+                            contact_or_link="స్పందన విద్యార్థి గ్రీవెన్స్ హెల్ప్‌లైన్: 1902"
+                        )
+                    ],
+                    verified_scheme_redirect=VerifiedScheme(
+                        scheme_name="జగనన్న విద్యా దీవెన & వసతి దీవెన (B.Tech ఫీజు రీయింబర్స్‌మెంట్)",
+                        eligibility_bullets=[
+                            "కన్వీనర్ కోటా ద్వారా ఇంజనీరింగ్ (B.Tech) కోర్సుల్లో ప్రవేశం పొందిన విద్యార్థులు",
+                            "కుటుంబ వార్షిక ఆదాయం ₹2.5 లక్షల లోపు ఉండాలి (నవశకం సర్వే ద్వారా నిర్ధారణ)",
+                            "సెమిస్టర్ పరీక్షలకు హాజరు కావడానికి కనీసం 75% తరగతి హాజరు తప్పనిసరి"
+                        ],
+                        official_portal="https://jnanabhumi.ap.gov.in",
+                        safe_application_steps=[
+                            "మీ కాలేజీ స్కాలర్‌షిప్ కౌంటర్‌లో లేదా సచివాలయంలో దరఖాస్తు చేయండి",
+                            "ఆధార్ బయోమెట్రిక్ ఈ-కేవైసీ పూర్తి చేయండి",
+                            "స్టేటస్‌ను navasakam2.apcfss.in లో ఉచితంగా పరిశీలించండి"
+                        ]
+                    )
+                )
+            else:
+                return CivicShieldResponse(
+                    intent="SCHEME_QUERY",
+                    risk_level="GREEN_SAFE",
+                    plain_takeaway="✅ FULL FEE REIMBURSEMENT AVAILABLE: B.Tech students from middle/low income families are entitled to 100% tuition reimbursement (Vidya Deevena & Central NSP) so you do not have to abandon your degree.",
+                    analysis_engine="JanRakshak Dynamic Intelligence Engine",
+                    query_summary="B.Tech 2nd Year College Fee Burden & Scholarship Support",
+                    verdict_title="🏛️ Verified B.Tech Student Fee Reimbursement & Scholarship Guide",
+                    explanation="You do NOT have to discontinue your B.Tech 2nd year studies due to financial hardship. Under state government welfare programs (such as Andhra Pradesh's Jagananna Vidya Deevena) and the Government of India's Direct Benefit Transfer (DBT) framework, eligible engineering students receive 100% full tuition fee reimbursement paid directly to their institutions.\n\nIn addition, Jagananna Vasathi Deevena provides up to ₹20,000 annually to cover hostel and mess expenses. At the national level, the Ministry of Education and AICTE operate the National Scholarship Portal (NSP), Pragati, and Saksham technical schemes providing ₹50,000 per annum for engineering students whose family income is below ₹2.5 to ₹4.5 Lakh. All of these programs are 100% free to apply with zero intermediary charges.",
+                    red_flags=[],
+                    solution_pathways=[
+                        SolutionPathway(
+                            title="College Scholarship Desk 2nd-Year Renewal",
+                            action_type="OFFICIAL_PORTAL",
+                            step_by_step=[
+                                "Visit your engineering college administration office scholarship counter.",
+                                "Submit your B.Tech 1st year marks memo, convenor admission allotment order, and current college fee receipt.",
+                                "Confirm that the college has updated your student profile for 2nd year on the JnanaBhumi portal (jnanabhumi.ap.gov.in)."
+                            ],
+                            contact_or_link="Your College Principal / Scholarship Section"
+                        ),
+                        SolutionPathway(
+                            title="Grama / Ward Sachivalayam (Village Secretariat) Verification",
+                            action_type="OFFICIAL_PORTAL",
+                            step_by_step=[
+                                "Visit your local Village or Ward Secretariat and meet the Welfare & Education Assistant.",
+                                "Provide your family Rice Card / Income Certificate (family income < ₹2.5 Lakh) and student Aadhaar Card.",
+                                "They will register and verify your eligibility on the Navasakam beneficiary portal."
+                            ],
+                            contact_or_link="Local Secretariat / Toll-Free Helpline: 1902"
+                        ),
+                        SolutionPathway(
+                            title="Central National Scholarship Portal (NSP) Application",
+                            action_type="OFFICIAL_PORTAL",
+                            step_by_step=[
+                                "Log on to the official portal: https://scholarships.gov.in.",
+                                "Apply under 'Post-Matric Scholarships for Technical & Professional Courses' or AICTE schemes.",
+                                "Upload college bonafide certificate and income proof to receive direct financial grant into your Aadhaar-linked bank account."
+                            ],
+                            contact_or_link="Portal: https://scholarships.gov.in (Helpline: 0120-6619540)"
+                        ),
+                        SolutionPathway(
+                            title="Protection Against College Harassment & Withholding Exams",
+                            action_type="LEGAL_POLICE",
+                            step_by_step=[
+                                "Under Government Orders (G.O.), private engineering colleges are legally barred from stopping students from writing semester exams or withholding hall tickets due to pending government fee reimbursement.",
+                                "If your college threatens you or demands upfront private fees, immediately lodge an official complaint on the Spandana grievance portal (1902)."
+                            ],
+                            contact_or_link="Public Grievance Redressal: 1902 / spandana.ap.gov.in"
+                        )
+                    ],
+                    verified_scheme_redirect=VerifiedScheme(
+                        scheme_name="Jagananna Vidya Deevena & Post-Matric Technical Fee Reimbursement",
+                        eligibility_bullets=[
+                            "Students enrolled in B.Tech / Engineering courses under Government Convenor Quota",
+                            "Total family annual income under ₹2.5 Lakh verified through Navasakam survey",
+                            "Maintaining minimum 75% aggregate class attendance in your engineering department"
+                        ],
+                        official_portal="https://jnanabhumi.ap.gov.in",
+                        safe_application_steps=[
+                            "Submit renewal application through your college scholarship section",
+                            "Complete biometric Aadhaar e-KYC authentication",
+                            "Track sanction and disbursement status on navasakam2.apcfss.in"
+                        ]
+                    )
+                )
+
         scheme_title = "Central & State Welfare Support"
         portal = "https://scholarships.gov.in"
         if "farmer" in t or "kisan" in t:
