@@ -92,8 +92,65 @@ def analyze_custom_dynamically(text: str, language: str, image_name: Optional[st
     selected_lang = language if language in ["English", "Telugu", "Hindi"] else "English"
     identifiers = extract_identifiers(text)
     
+    # Category 0: Digital Arrest / Police / CBI / ED / Skype Extortion
+    if any(k in t for k in ["digital arrest", "arrest", "cbi", "police", "skype", "money laundering", "narcotics", "customs", "parcel", "fedex", "mdma", "contraband"]):
+        summary = "Fake Police / CBI 'Digital Arrest' Extortion Call"
+        if selected_lang == "Telugu":
+            verdict = "🚨 100% నకిలీ 'డిజిటల్ అరెస్ట్' సైబర్ బెదిరింపు!"
+            takeaway = "❌ భారత చట్టాల్లో 'డిజిటల్ అరెస్ట్' అనేదే లేదు. స్కైప్ లేదా వాట్సాప్ వీడియో కాల్స్ వెంటనే కట్ చేయండి. రూపాయి కూడా బదిలీ చేయవద్దు."
+            explanation = "ఇది ప్రమాదకరమైన 'డిజిటల్ అరెస్ట్' సైబర్ దందా. నేరగాళ్లు పోలీస్, సీబీఐ లేదా నార్కోటిక్స్ అధికారుల యూనిఫాంలో నకిలీ గుర్తింపు కార్డులు చూపిస్తూ వీడియో కాల్ చేస్తారు. మీ ఖాతా మనీ లాండరింగ్‌లో ఇరుక్కుందని బెదిరించి డబ్బులు లాగుతారు.\n\nచట్టపరమైన వాస్తవం: భారత న్యాయ వ్యవస్థలో 'డిజిటల్ అరెస్ట్' అనే ప్రక్రియే లేదు. ఏ అధికారిక పోలీస్ లేదా దర్యాప్తు సంస్థ కూడా వీడియో కాల్ ద్వారా విచారణలు చేయదు, డబ్బులు అడగదు."
+        elif selected_lang == "Hindi":
+            verdict = "🚨 100% फर्जी 'डिजिटल अरेस्ट' जबरन वसूली का फ्रॉड!"
+            takeaway = "❌ भारत में 'डिजिटल अरेस्ट' नाम का कोई कानून नहीं है। तुरंत वीडियो कॉल काटें और कोई पैसा ट्रांसफर न करें।"
+            explanation = "यह एक संगठित 'डिजिटल अरेस्ट' साइबर फ्रॉड है। जालसाज पुलिस या सीबीआई वर्दी का नाटक करके वीडियो कॉल पर गिरफ्तारी की धमकी देते हैं और पैसे वसूलते हैं। गृह मंत्रालय ने स्पष्ट किया है कि कोई भी पुलिस एजेंसी वीडियो कॉल पर जांच नहीं करती।"
+        else:
+            verdict = "🚨 100% FRAUD: 'Digital Arrest' is a Complete Cyber Extortion Fiction!"
+            takeaway = "❌ ZERO LEGITIMACY: No police or CBI agency conducts 'Digital Arrest' or video call interrogations. Disconnect immediately and send NO money."
+            explanation = "You are being targeted by an organized 'Digital Arrest' syndicate. Fraudsters pose as CBI or Police officers on Skype/WhatsApp video calls with forged warrants, claiming your Aadhaar is linked to illegal parcels or money laundering.\n\nLEGAL REALITY: There is NO concept of 'Digital Arrest' under Indian law. The Ministry of Home Affairs (MHA) and Supreme Court of India have affirmed that real police never interrogate citizens on video calls or demand funds."
+
+        return CivicShieldResponse(
+            intent="EMERGENCY_REPORT",
+            risk_level="RED_SCAM",
+            plain_takeaway=takeaway,
+            analysis_engine="JanRakshak Dynamic Intelligence Engine",
+            query_summary=summary,
+            verdict_title=verdict,
+            explanation=explanation,
+            red_flags=[
+                "Demands continuous Skype or WhatsApp video call presence under threat of arrest",
+                "Claims 'Digital Arrest' and flashes counterfeit police badges or warrants",
+                "Pressures you to transfer funds into secret bank accounts for 'clearing verification'"
+            ],
+            solution_pathways=[
+                SolutionPathway(
+                    title="Terminate Video Call & Block Immediately",
+                    action_type="IMMEDIATE_ACTION",
+                    step_by_step=["Immediately disconnect the call.", "Do NOT be intimidated by their fake badges or threats.", "Block and report the caller."],
+                    contact_or_link="Disconnect Call & Block Profile"
+                ),
+                SolutionPathway(
+                    title="Dial 1930 National Cyber Crime Helpline",
+                    action_type="FINANCIAL_RECOVERY",
+                    step_by_step=["Call 1930 immediately.", "If money was sent, report the bank transaction numbers for instant account freezing."],
+                    contact_or_link="Toll-Free Helpline: 1930"
+                ),
+                SolutionPathway(
+                    title="Lodge Online Complaint on National Portal",
+                    action_type="LEGAL_POLICE",
+                    step_by_step=["File an official complaint at https://cybercrime.gov.in.", "Upload screenshots of call logs and numbers."],
+                    contact_or_link="Official Portal: https://cybercrime.gov.in"
+                )
+            ],
+            cybercrime_1930_draft=CybercrimeReportDraft(
+                incident_category="Digital Arrest Extortion / Law Enforcement Impersonation",
+                suspect_identifiers=identifiers,
+                incident_summary=f"Extortion call involving impersonation of law enforcement officers threatening digital arrest: {text[:200]}",
+                immediate_checklist=["Disconnect video call", "Dial 1930 if funds sent", "Lodge complaint on cybercrime.gov.in"]
+            )
+        )
+
     # Category 1: Electricity / Power Cutoff Extortion
-    if any(k in t for k in ["electricity", "power", "disconnected", "cutoff", "sub-station", "meter", "bijli", "current", "bill not updated", "apcpdcl", "tneb", "bescom", "tsspdcl"]):
+    elif any(k in t for k in ["electricity", "power", "disconnected", "cutoff", "sub-station", "meter", "bijli", "बिजली", "current", "bill not updated", "apcpdcl", "tneb", "bescom", "tsspdcl"]):
         if selected_lang == "Telugu":
             return CivicShieldResponse(
                 intent="SCAM_CHECK",
@@ -507,6 +564,14 @@ def analyze_custom_dynamically(text: str, language: str, image_name: Optional[st
 @app.get("/")
 async def serve_home():
     return FileResponse("static/index.html")
+
+@app.get("/slides")
+async def serve_slides():
+    return FileResponse("slides.html")
+
+@app.get("/api/health")
+async def health_check():
+    return {"status": "healthy", "service": "JanRakshak AI (CivicShield)", "version": "1.0.0"}
 
 @app.post("/api/analyze", response_model=CivicShieldResponse)
 async def analyze_input(
