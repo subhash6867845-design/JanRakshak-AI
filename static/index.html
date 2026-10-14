@@ -10,9 +10,7 @@
       0%, 100% { opacity: 1; transform: scale(1); }
       50% { opacity: 0.85; transform: scale(1.02); }
     }
-    .recording-pulse {
-      animation: pulse-glow 1.5s infinite;
-    }
+    .recording-pulse { animation: pulse-glow 1.5s infinite; }
   </style>
 </head>
 <body class="bg-slate-950 text-slate-100 min-h-screen font-sans selection:bg-emerald-500/30 selection:text-emerald-300">
@@ -26,7 +24,7 @@
         <div>
           <h1 class="font-bold text-lg tracking-tight text-white flex items-center gap-2">
             JanRakshak AI
-            <span class="text-[10px] bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-2 py-0.5 rounded-full font-mono uppercase tracking-wider">PromptWars Edition</span>
+            <span class="text-[10px] bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 px-2 py-0.5 rounded-full font-mono uppercase tracking-wider">PromptWars 2026</span>
           </h1>
           <p class="text-xs text-slate-400">Multilingual AI Guardian for Verified Public Services & Cyber Safety</p>
         </div>
@@ -45,12 +43,13 @@
           <input
             id="apiKeyInput"
             type="password"
-            placeholder="Gemini API Key (saved in browser)"
-            class="bg-slate-800/90 border border-slate-700 text-xs rounded-lg px-3 py-2 w-56 text-slate-200 placeholder-slate-500 focus:outline-none focus:border-emerald-500 transition"
+            placeholder="Gemini API Key (optional)"
+            class="bg-slate-800/90 border border-slate-700 text-xs rounded-lg px-3 py-2 w-52 text-slate-200 placeholder-slate-500 focus:outline-none focus:border-emerald-500 transition"
           />
         </div>
         <select
           id="languageSelect"
+          onchange="onLanguageChange()"
           class="bg-slate-800 border border-slate-700 text-xs rounded-lg px-3 py-2 font-medium text-emerald-300 focus:outline-none focus:border-emerald-500 transition cursor-pointer"
         >
           <option value="English">🌐 English</option>
@@ -63,51 +62,47 @@
 
   <!-- Main Content Layout -->
   <main class="max-w-6xl mx-auto px-4 py-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
-    <!-- Left Column: Demo Scenarios & Input Form -->
+    <!-- Left Column: Input Form & Quick Pickers -->
     <div class="lg:col-span-5 space-y-5">
-      <!-- One-Click Live Hackathon Demos Card -->
-      <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 shadow-xl">
-        <div class="flex items-center justify-between mb-3">
+      <!-- Quick Common Issue Pickers -->
+      <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-4 shadow-xl space-y-2.5">
+        <div class="flex items-center justify-between">
           <span class="text-xs font-semibold uppercase tracking-wider text-cyan-400 flex items-center gap-1.5">
-            <span>⚡</span> One-Click Live Hackathon Demos
+            <span>⚡</span> Pick a Quick Scenario or Topic
           </span>
-          <span class="text-[10px] text-slate-500 font-mono">Stage Presets</span>
+          <span class="text-[10px] text-slate-500 font-mono">1-Click Test</span>
         </div>
-        <div class="space-y-2">
-          <button
-            type="button"
-            onclick="loadDemo(1)"
-            class="w-full text-left text-xs bg-slate-800/70 hover:bg-slate-800 border border-slate-700/80 hover:border-rose-500/50 rounded-xl p-3 transition flex items-start gap-3 group"
-          >
-            <span class="text-lg bg-rose-500/10 border border-rose-500/20 p-1.5 rounded-lg shrink-0">🚨</span>
-            <div>
-              <div class="font-semibold text-rose-300 group-hover:text-rose-200 transition">Demo 1: Fake Welfare APK Scam</div>
-              <div class="text-slate-400 text-[11px] mt-0.5">Trojan malware breakdown + 4 resolution pathways + real PM-Kisan portal.</div>
-            </div>
+        <p class="text-[11px] text-slate-400">Click any card below to load it into the box, or type your own question freely:</p>
+        
+        <div class="grid grid-cols-2 gap-2 pt-1">
+          <button type="button" onclick="loadTopic('electricity')" class="text-left text-xs bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 hover:border-amber-500/50 rounded-xl p-2.5 transition group">
+            <div class="font-semibold text-amber-300 flex items-center gap-1.5">⚡ Electricity Cutoff</div>
+            <div class="text-[10px] text-slate-400 mt-0.5">Threat SMS to cut power</div>
+          </button>
+          
+          <button type="button" onclick="loadTopic('bank')" class="text-left text-xs bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 hover:border-rose-500/50 rounded-xl p-2.5 transition group">
+            <div class="font-semibold text-rose-300 flex items-center gap-1.5">💳 Bank / PAN Block</div>
+            <div class="text-[10px] text-slate-400 mt-0.5">Fake KYC SMS link</div>
           </button>
 
-          <button
-            type="button"
-            onclick="loadDemo(2)"
-            class="w-full text-left text-xs bg-slate-800/70 hover:bg-slate-800 border border-slate-700/80 hover:border-emerald-500/50 rounded-xl p-3 transition flex items-start gap-3 group"
-          >
-            <span class="text-lg bg-emerald-500/10 border border-emerald-500/20 p-1.5 rounded-lg shrink-0">🏛️</span>
-            <div>
-              <div class="font-semibold text-emerald-300 group-hover:text-emerald-200 transition">Demo 2: Citizen Scheme Navigator</div>
-              <div class="text-slate-400 text-[11px] mt-0.5">Comprehensive guide for Vidya Deevena & NSP scholarships with application routes.</div>
-            </div>
+          <button type="button" onclick="loadTopic('job')" class="text-left text-xs bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 hover:border-purple-500/50 rounded-xl p-2.5 transition group">
+            <div class="font-semibold text-purple-300 flex items-center gap-1.5">💼 Telegram Job Scam</div>
+            <div class="text-[10px] text-slate-400 mt-0.5">Like videos & earn money</div>
           </button>
 
-          <button
-            type="button"
-            onclick="loadDemo(3)"
-            class="w-full text-left text-xs bg-slate-800/70 hover:bg-slate-800 border border-slate-700/80 hover:border-amber-500/50 rounded-xl p-3 transition flex items-start gap-3 group"
-          >
-            <span class="text-lg bg-amber-500/10 border border-amber-500/20 p-1.5 rounded-lg shrink-0">🚓</span>
-            <div>
-              <div class="font-semibold text-amber-300 group-hover:text-amber-200 transition">Demo 3: "Digital Arrest" & UPI Extortion</div>
-              <div class="text-slate-400 text-[11px] mt-0.5">Legal breakdown + 1930 Golden-Hour inter-bank freeze + RBI zero-liability route.</div>
-            </div>
+          <button type="button" onclick="loadTopic('digital_arrest')" class="text-left text-xs bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 hover:border-rose-500/50 rounded-xl p-2.5 transition group">
+            <div class="font-semibold text-rose-400 flex items-center gap-1.5">👮 "Digital Arrest"</div>
+            <div class="text-[10px] text-slate-400 mt-0.5">Fake CBI/Police video call</div>
+          </button>
+
+          <button type="button" onclick="loadTopic('scholarship')" class="text-left text-xs bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 hover:border-emerald-500/50 rounded-xl p-2.5 transition group">
+            <div class="font-semibold text-emerald-300 flex items-center gap-1.5">🎓 College Scholarship</div>
+            <div class="text-[10px] text-slate-400 mt-0.5">12th pass fee support</div>
+          </button>
+
+          <button type="button" onclick="loadTopic('farmer')" class="text-left text-xs bg-slate-800/80 hover:bg-slate-800 border border-slate-700/80 hover:border-emerald-500/50 rounded-xl p-2.5 transition group">
+            <div class="font-semibold text-teal-300 flex items-center gap-1.5">🌾 PM-Kisan & Farm</div>
+            <div class="text-[10px] text-slate-400 mt-0.5">Government welfare DBT</div>
           </button>
         </div>
       </div>
@@ -116,7 +111,7 @@
       <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl space-y-4">
         <div class="flex items-center justify-between">
           <label class="text-sm font-semibold text-white flex items-center gap-2">
-            <span>🛡️</span> Unified Civic & Cyber Input
+            <span>🛡️</span> Ask a Question or Verify Any Message
           </label>
           <button
             type="button"
@@ -132,7 +127,7 @@
         <textarea
           id="userInput"
           rows="5"
-          placeholder="Paste a suspicious SMS/WhatsApp forward, ask about a government scheme, or describe an active cyber fraud incident..."
+          placeholder="Type or paste any question or message freely (e.g. 'I got an SMS saying my electricity bill is unpaid', 'Someone called asking for UPI PIN', 'What scholarships exist for students in AP?')..."
           class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3.5 text-sm text-slate-100 focus:outline-none focus:border-emerald-500 transition resize-none leading-relaxed placeholder-slate-600"
         ></textarea>
 
@@ -153,9 +148,9 @@
             <img id="imagePreview" src="" alt="Screenshot Preview" class="max-h-32 rounded-lg border border-slate-700 object-contain bg-black/40 mx-auto" />
           </div>
 
-          <!-- Quick Sample Images for Stage Presentation -->
+          <!-- Quick Sample Images -->
           <div class="flex items-center gap-2 mt-2 pt-2 border-t border-slate-800/80 text-[11px]">
-            <span class="text-slate-500">Quick Samples:</span>
+            <span class="text-slate-500">Quick Image Samples:</span>
             <button type="button" onclick="loadSampleImage('/demo_assets/fake_pmkisan_whatsapp.png', 'WhatsApp APK Scam Alert')" class="text-emerald-400 hover:text-emerald-300 underline cursor-pointer">🖼️ WhatsApp APK</button>
             <button type="button" onclick="loadSampleImage('/demo_assets/fake_electricity_sms.png', 'Electricity Disconnection SMS')" class="text-amber-400 hover:text-amber-300 underline cursor-pointer">⚡ Power Cutoff</button>
           </div>
@@ -167,7 +162,7 @@
           id="analyzeBtn"
           class="w-full bg-gradient-to-r from-emerald-500 via-teal-500 to-cyan-500 hover:from-emerald-400 hover:to-cyan-400 text-slate-950 font-bold py-3.5 rounded-xl shadow-lg shadow-emerald-500/20 transition flex items-center justify-center gap-2 text-sm tracking-wide cursor-pointer"
         >
-          <span>🔍</span> Run Multi-Agent Verification
+          <span>🔍</span> Analyze My Input Now
         </button>
       </div>
     </div>
@@ -179,22 +174,22 @@
         <div class="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-emerald-500/10 via-cyan-500/10 to-transparent border border-slate-700/50 flex items-center justify-center text-3xl">
           🛡️
         </div>
-        <h2 class="text-lg font-bold text-white">Three Intelligent Agents Ready on Standby</h2>
+        <h2 class="text-lg font-bold text-white">Ask Anything or Verify Any Suspicious Message</h2>
         <p class="text-xs text-slate-400 max-w-md mx-auto leading-relaxed">
-          Select one of the live demo scenarios on the left or enter your own query. JanRakshak AI will orchestrate:
+          Type your question on the left or click any quick topic. JanRakshak AI dynamically analyzes your exact text and provides:
         </p>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2 text-left max-w-lg mx-auto">
           <div class="bg-slate-950/70 border border-slate-800 p-3 rounded-xl">
-            <div class="text-rose-400 font-semibold text-xs mb-1">1. Forensic Scam Shield</div>
-            <div class="text-[11px] text-slate-400">Detects phishing APKs, UPI traps, & fake notices.</div>
+            <div class="text-rose-400 font-semibold text-xs mb-1">1. Crystal-Clear Verdict</div>
+            <div class="text-[11px] text-slate-400">Tells you straight if it's 100% fake or genuine.</div>
           </div>
           <div class="bg-slate-950/70 border border-slate-800 p-3 rounded-xl">
-            <div class="text-emerald-400 font-semibold text-xs mb-1">2. Scheme Navigator</div>
-            <div class="text-[11px] text-slate-400">Cross-references genuine welfare portals.</div>
+            <div class="text-cyan-400 font-semibold text-xs mb-1">2. All Ways to Solve It</div>
+            <div class="text-[11px] text-slate-400">Step-by-step actions, helplines, and portal links.</div>
           </div>
           <div class="bg-slate-950/70 border border-slate-800 p-3 rounded-xl">
-            <div class="text-amber-400 font-semibold text-xs mb-1">3. 1930 Emergency Drafter</div>
-            <div class="text-[11px] text-slate-400">Prepares immediate cybercrime FIRs for golden-hour recovery.</div>
+            <div class="text-amber-400 font-semibold text-xs mb-1">3. 1930 / Govt Protection</div>
+            <div class="text-[11px] text-slate-400">Pre-drafted police report and official portals.</div>
           </div>
         </div>
       </div>
@@ -202,57 +197,73 @@
       <!-- Loading State -->
       <div id="loadingState" class="hidden bg-slate-900 border border-slate-800 rounded-2xl p-10 text-center space-y-4">
         <div class="w-14 h-14 mx-auto rounded-full border-4 border-emerald-500/20 border-t-emerald-400 animate-spin"></div>
-        <div class="text-sm font-semibold text-emerald-300">Gemini Multi-Agent Router in Progress...</div>
+        <div class="text-sm font-semibold text-emerald-300">JanRakshak AI Analyzing Your Input...</div>
         <div class="text-xs text-slate-400 max-w-xs mx-auto">
-          Evaluating technical signatures • Cross-referencing legal statutes • Generating all solution pathways
+          Evaluating your exact text • Formulating all possible resolution pathways
         </div>
       </div>
 
       <!-- Result Container -->
       <div id="resultContainer" class="hidden space-y-5">
-        <!-- 1. Traffic Light Verdict Banner & In-Depth Explanation -->
-        <div id="verdictBanner" class="rounded-2xl p-5 border shadow-xl transition-all">
-          <div class="flex items-start justify-between gap-3">
-            <div>
-              <div class="flex items-center gap-2">
-                <span id="intentBadge" class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-black/40 border border-white/10"></span>
-                <span id="riskBadge" class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full"></span>
-              </div>
-              <h2 id="verdictTitle" class="text-xl font-bold mt-2 text-white"></h2>
+        <!-- 0. TRANSPARENCY & THE BOTTOM LINE (Plain Words First) -->
+        <div id="takeawayBanner" class="rounded-2xl p-5 border shadow-xl transition-all">
+          <div class="flex items-center justify-between gap-2 border-b border-white/10 pb-2.5 mb-3 flex-wrap">
+            <div class="flex items-center gap-2">
+              <span id="transparencyEngine" class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-black/40 border border-white/10 text-cyan-300"></span>
+              <span id="userQueryBadge" class="text-[10px] font-mono text-slate-400 truncate max-w-xs"></span>
             </div>
             <button
               onclick="speakResult()"
               id="ttsBtn"
               class="text-xs bg-black/40 hover:bg-black/60 text-slate-200 px-3 py-1.5 rounded-lg border border-white/10 shrink-0 flex items-center gap-1.5 transition cursor-pointer"
             >
-              <span>🔊</span> Listen
+              <span>🔊</span> Read Aloud
             </button>
           </div>
 
-          <!-- Deep Explanation Container -->
-          <div class="mt-4 pt-3 border-t border-white/10">
-            <div class="text-xs font-bold uppercase tracking-wider text-emerald-300 mb-2 flex items-center gap-1.5">
-              <span>📖</span> Detailed Diagnostic & Legal Assessment:
+          <!-- The Plain Language Takeaway -->
+          <div>
+            <div class="text-[10px] font-bold uppercase tracking-wider text-slate-300 mb-1">👉 The Bottom Line (In Plain Words):</div>
+            <div id="plainTakeawayText" class="text-base md:text-lg font-bold text-white leading-snug"></div>
+          </div>
+        </div>
+
+        <!-- 1. Detailed Assessment Card -->
+        <div id="verdictBanner" class="rounded-2xl p-5 border shadow-xl transition-all bg-slate-900/90 border-slate-800">
+          <div class="flex items-center justify-between gap-3">
+            <div>
+              <div class="flex items-center gap-2">
+                <span id="intentBadge" class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-black/40 border border-white/10"></span>
+                <span id="riskBadge" class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full"></span>
+              </div>
+              <h2 id="verdictTitle" class="text-lg font-bold mt-2 text-white"></h2>
             </div>
-            <div id="verdictExplanation" class="text-sm leading-relaxed text-slate-200 space-y-3 bg-black/20 p-4 rounded-xl border border-white/5"></div>
+          </div>
+
+          <!-- Deep Explanation Container -->
+          <div class="mt-4 pt-3 border-t border-slate-800">
+            <div class="text-xs font-bold uppercase tracking-wider text-emerald-300 mb-2 flex items-center gap-1.5">
+              <span>📖</span> Full Explanation & Background:
+            </div>
+            <div id="verdictExplanation" class="text-xs leading-relaxed text-slate-300 space-y-2.5 bg-slate-950/60 p-4 rounded-xl border border-slate-800"></div>
           </div>
 
           <!-- Red Flags Box -->
-          <div id="redFlagsBox" class="mt-4 pt-3.5 border-t border-white/10 hidden">
+          <div id="redFlagsBox" class="mt-4 pt-3.5 border-t border-slate-800 hidden">
             <div class="text-xs font-bold uppercase tracking-wider text-rose-300 mb-2 flex items-center gap-1.5">
-              <span>🚩</span> Detected Threat & Manipulation Indicators:
+              <span>🚩</span> Detected Warning Signs in This Message:
             </div>
             <ul id="redFlagsList" class="text-xs space-y-1.5 text-slate-300 list-disc list-inside"></ul>
           </div>
         </div>
 
-        <!-- 2. ALL POSSIBLE WAYS TO SOLVE THE PROBLEM (New & Expanded) -->
+        <!-- 2. ALL POSSIBLE WAYS TO SOLVE THE PROBLEM -->
         <div id="solutionsCard" class="hidden bg-slate-900/90 border border-cyan-500/40 rounded-2xl p-5 shadow-xl space-y-4">
           <div class="flex items-center justify-between flex-wrap gap-2 border-b border-slate-800 pb-3">
             <div class="flex items-center gap-2">
               <span class="text-xl">🛠️</span>
               <div>
-                <span class="text-[10px] font-bold uppercase tracking-wider text-cyan-400 bg-cyan-500/10 border border-cyan-500/20 px-2 py-0.5 rounded-md">Actionable Resolution Pathways</span>
+                <span class="text-[10px] font-bold uppercase tracking-wider text-cyan-400 bg-cyan-500/10 border border-cyan-500/20 px-2 py-0.5 rounded-md">Step-by-Step Resolution</span>
                 <h3 class="text-base font-bold text-white mt-1">All Ways to Solve & Handle This Problem</h3>
               </div>
             </div>
@@ -269,8 +280,8 @@
             <div class="flex items-center gap-2">
               <span class="text-xl">🏛️</span>
               <div>
-                <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-md">Official Public Service</span>
-                <h3 id="schemeName" class="text-lg font-bold text-white mt-1"></h3>
+                <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-md">Official Government Scheme</span>
+                <h3 id="schemeName" class="text-base font-bold text-white mt-1"></h3>
               </div>
             </div>
             <a
@@ -285,7 +296,7 @@
           </div>
 
           <div>
-            <div class="text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">3-Point Simplified Eligibility:</div>
+            <div class="text-xs font-semibold text-slate-300 uppercase tracking-wider mb-2">3-Point Eligibility Summary:</div>
             <ul id="schemeEligibility" class="text-xs space-y-1.5 text-slate-300 list-disc list-inside bg-slate-950/50 p-3 rounded-xl border border-slate-800"></ul>
           </div>
 
@@ -306,6 +317,12 @@
               </div>
             </div>
             <div class="flex items-center gap-2">
+              <a
+                href="tel:1930"
+                class="text-xs bg-rose-600 hover:bg-rose-500 text-white font-bold px-3 py-1.5 rounded-lg shadow transition flex items-center gap-1 cursor-pointer"
+              >
+                📞 Dial 1930
+              </a>
               <button
                 onclick="copyIncidentReport()"
                 id="copyReportBtn"
@@ -324,19 +341,19 @@
 
           <!-- Suspect Identifiers -->
           <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800">
-            <div class="text-[11px] font-semibold text-amber-300 uppercase tracking-wider mb-1">Suspect Identifiers (URLs, Phone, UPI IDs):</div>
+            <div class="text-[11px] font-semibold text-amber-300 uppercase tracking-wider mb-1">Extracted Suspect Identifiers:</div>
             <div id="emergencySuspects" class="text-xs font-mono text-slate-300 break-all"></div>
           </div>
 
           <!-- Official Draft -->
           <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800">
-            <div class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1">Pre-Drafted Incident Summary (English - for cybercrime.gov.in):</div>
+            <div class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-1">Formal Incident Draft (Ready to paste on cybercrime.gov.in):</div>
             <p id="emergencySummary" class="text-xs text-slate-300 leading-relaxed font-sans"></p>
           </div>
 
           <!-- Golden Hour Checklist -->
           <div>
-            <div class="text-xs font-semibold text-rose-300 uppercase tracking-wider mb-2">⚡ Golden-Hour Emergency Checklist:</div>
+            <div class="text-xs font-semibold text-rose-300 uppercase tracking-wider mb-2">⚡ Immediate Actions Checklist:</div>
             <ul id="emergencyChecklist" class="text-xs space-y-1.5 text-slate-300 list-disc list-inside bg-rose-950/20 border border-rose-500/30 p-3 rounded-xl"></ul>
           </div>
         </div>
@@ -356,42 +373,25 @@
 
       <div class="space-y-4 text-xs text-slate-300">
         <div>
-          <h3 class="text-sm font-semibold text-cyan-400 mb-1">1. The Multi-Agent Router (Gemini Flash + Structured JSON)</h3>
+          <h3 class="text-sm font-semibold text-cyan-400 mb-1">1. Dynamic Intelligence & Transparent Analysis</h3>
           <p class="leading-relaxed">
-            JanRakshak AI utilizes a single high-efficiency Gemini call configured with Pydantic typed schema (<code class="bg-slate-950 px-1 py-0.5 rounded text-emerald-300">CivicShieldResponse</code>). This enforces 100% parseable structured outputs with zero runtime deserialization crashes on stage.
+            Every user query is dynamically analyzed. The platform provides a plain-language bottom-line takeaway, detailed legal breakdown, and 3 to 4 concrete, actionable resolution pathways.
           </p>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
           <div class="bg-slate-950 p-3 rounded-xl border border-rose-500/30">
             <div class="font-bold text-rose-400 mb-1">Forensic Shield</div>
-            <p class="text-[11px] text-slate-400">Scans URLs, APK payloads, urgency manipulation, and "Digital Arrest" threats.</p>
+            <p class="text-[11px] text-slate-400">Scans URLs, APK payloads, urgency manipulation, and extortion threats.</p>
           </div>
           <div class="bg-slate-950 p-3 rounded-xl border border-emerald-500/30">
             <div class="font-bold text-emerald-400 mb-1">Civic Navigator</div>
-            <p class="text-[11px] text-slate-400">Cross-checks genuine Central & State welfare schemes and distills 20-page circulars to 3 bullet points.</p>
+            <p class="text-[11px] text-slate-400">Cross-checks genuine Central & State welfare schemes with official .gov.in links.</p>
           </div>
           <div class="bg-slate-950 p-3 rounded-xl border border-amber-500/30">
             <div class="font-bold text-amber-400 mb-1">1930 Emergency Drafter</div>
             <p class="text-[11px] text-slate-400">Drafts formal cybercrime reports and initiates Golden-Hour bank freeze workflows.</p>
           </div>
-        </div>
-
-        <div>
-          <h3 class="text-sm font-semibold text-cyan-400 mb-1">2. Deep Diagnostic & Multi-Pathway Resolution</h3>
-          <p class="leading-relaxed">
-            Unlike shallow chat systems, JanRakshak AI diagnoses the technical threat mechanics and formulates up to 4 parallel resolution pathways: device quarantine, official bureaucratic verification, RBI zero-liability dispute mechanisms, and statutory legal reporting.
-          </p>
-        </div>
-
-        <div>
-          <h3 class="text-sm font-semibold text-cyan-400 mb-1">3. Tech Stack Specs</h3>
-          <ul class="list-disc list-inside space-y-1 text-slate-400">
-            <li><strong>AI Foundation:</strong> Gemini Models via official <code class="text-emerald-300">google-genai</code> SDK.</li>
-            <li><strong>Backend:</strong> Python FastAPI asynchronous server with Pydantic validation.</li>
-            <li><strong>Frontend:</strong> TailwindCSS Single-Page Dashboard with Web Speech API (ASR + TTS).</li>
-            <li><strong>Offline Resiliency:</strong> High-fidelity local fallback presets for flawless offline demonstration.</li>
-          </ul>
         </div>
       </div>
 
@@ -408,7 +408,6 @@
 
   <!-- Client-side Logic -->
   <script>
-    let activeDemoId = null;
     let recognition = null;
     let isRecording = false;
     let latestResponseData = null;
@@ -416,39 +415,42 @@
     // Load saved preferences
     window.addEventListener("DOMContentLoaded", () => {
       const savedKey = localStorage.getItem("janrakshak_gemini_key");
-      if (savedKey) {
-        document.getElementById("apiKeyInput").value = savedKey;
-      }
+      if (savedKey) document.getElementById("apiKeyInput").value = savedKey;
       const savedLang = localStorage.getItem("janrakshak_language");
-      if (savedLang) {
-        document.getElementById("languageSelect").value = savedLang;
-      }
+      if (savedLang) document.getElementById("languageSelect").value = savedLang;
     });
 
     document.getElementById("apiKeyInput").addEventListener("change", (e) => {
       localStorage.setItem("janrakshak_gemini_key", e.target.value.trim());
     });
 
-    document.getElementById("languageSelect").addEventListener("change", (e) => {
-      localStorage.setItem("janrakshak_language", e.target.value);
-    });
-
-    function toggleArchitectureModal() {
-      const modal = document.getElementById("architectureModal");
-      modal.classList.toggle("hidden");
+    function onLanguageChange() {
+      const lang = document.getElementById("languageSelect").value;
+      localStorage.setItem("janrakshak_language", lang);
+      // Re-analyze if input exists
+      if (document.getElementById("userInput").value.trim()) {
+        analyzeNow();
+      }
     }
 
-    // Preset Demo Scenarios
-    const DEMO_TEXTS = {
-      1: "Urgent Govt Alert! PM-Kisan & Vidya Deevena beneficiary installment approved. Download official AP-Kisan App directly: http://pmkisan-direct-claim.apk to claim ₹5,000 immediately within 24 hours.",
-      2: "My daughter just completed 12th grade in Andhra Pradesh with good marks. We are from a middle-class farming family. What official government scholarships and fee reimbursements can we apply for safely?",
-      3: "Emergency: I received a WhatsApp video call from someone in police uniform claiming to be CBI officers from Mumbai. They said a parcel with narcotics was registered in my Aadhaar name and put me under 'Digital Arrest'. They forced me to transfer ₹15,000 via UPI to a verification account and are demanding more."
+    function toggleArchitectureModal() {
+      document.getElementById("architectureModal").classList.toggle("hidden");
+    }
+
+    // Quick Topic Prompts (Easy 1-Touch Options for Users)
+    const TOPIC_PRESETS = {
+      electricity: "Dear Consumer, your electricity power will be disconnected tonight at 9:30 PM from the sub-station because your previous month bill was not updated. Please immediately call our electricity officer at +91-91234-56789 or pay via UPI to prevent cutoff.",
+      bank: "Dear Customer, your State Bank account and Debit Card will be blocked in 24 hours due to pending PAN card verification. Please click here to complete KYC immediately: http://sbi-kyc-update.com/login",
+      job: "Congratulations! You are selected for online part-time job. Work from home 1 hour daily and earn Rs 3,000 to Rs 8,000 by liking YouTube videos and rating hotels on Google. Contact HR on Telegram: @WorkDeskIndia",
+      digital_arrest: "Emergency: I received a WhatsApp video call from someone in police uniform claiming to be CBI officers from Mumbai. They said a parcel with narcotics was registered in my Aadhaar name and put me under 'Digital Arrest'. They forced me to transfer Rs 15,000 via UPI to a verification account.",
+      scholarship: "My daughter just completed 12th grade in Andhra Pradesh with good marks. We are from a middle-class farming family. What official government scholarships and fee reimbursements can we apply for safely?",
+      farmer: "I am a small landholding farmer. How do I register for PM-Kisan financial assistance of Rs 6,000 per year, and how do I check my beneficiary installment status safely?"
     };
 
-    function loadDemo(id) {
-      activeDemoId = id.toString();
-      document.getElementById("userInput").value = DEMO_TEXTS[id];
-      showToast(`Loaded Demo ${id} preset scenario.`);
+    function loadTopic(topicKey) {
+      document.getElementById("userInput").value = TOPIC_PRESETS[topicKey];
+      clearImage();
+      showToast(`Loaded ${topicKey.replace('_', ' ')} scenario`);
       analyzeNow();
     }
 
@@ -476,7 +478,7 @@
       document.getElementById("clearImageBtn").classList.add("hidden");
     }
 
-    // Load sample image directly for stage demonstration
+    // Load sample image
     async function loadSampleImage(url, title) {
       try {
         const res = await fetch(url);
@@ -500,12 +502,13 @@
           document.getElementById("userInput").value = "Is this electricity power disconnection SMS genuine?";
         }
         showToast(`Loaded ${title} sample image!`);
+        analyzeNow();
       } catch (e) {
         showToast("Error loading sample image: " + e.message);
       }
     }
 
-    // Speech-to-Text with Web Speech API
+    // Speech-to-Text
     function toggleVoiceInput() {
       const micBtn = document.getElementById("micBtn");
       const micText = document.getElementById("micText");
@@ -529,14 +532,9 @@
       recognition.continuous = false;
       recognition.interimResults = false;
 
-      // Language selection for ASR
-      if (language === "Telugu") {
-        recognition.lang = "te-IN";
-      } else if (language === "Hindi") {
-        recognition.lang = "hi-IN";
-      } else {
-        recognition.lang = "en-IN";
-      }
+      if (language === "Telugu") recognition.lang = "te-IN";
+      else if (language === "Hindi") recognition.lang = "hi-IN";
+      else recognition.lang = "en-IN";
 
       recognition.onstart = () => {
         isRecording = true;
@@ -549,10 +547,10 @@
         const currentVal = document.getElementById("userInput").value;
         document.getElementById("userInput").value = currentVal ? currentVal + " " + transcript : transcript;
         showToast("Voice input captured!");
+        analyzeNow();
       };
 
       recognition.onerror = (event) => {
-        console.error("Speech Recognition Error:", event.error);
         showToast("Microphone error: " + event.error);
       };
 
@@ -572,8 +570,8 @@
       const language = document.getElementById("languageSelect").value;
       const apiKey = document.getElementById("apiKeyInput").value.trim();
 
-      if (!textInput && (!imageInput.files || !imageInput.files[0]) && !activeDemoId) {
-        alert("Please enter text, upload a screenshot, or click one of the Demo presets.");
+      if (!textInput && (!imageInput.files || !imageInput.files[0])) {
+        alert("Please enter a question or select one of the quick scenario topics.");
         return;
       }
 
@@ -587,9 +585,6 @@
       formData.append("text_input", textInput);
       formData.append("language", language);
       formData.append("api_key", apiKey);
-      if (activeDemoId) {
-        formData.append("demo_id", activeDemoId);
-      }
       if (imageInput.files && imageInput.files[0]) {
         formData.append("image", imageInput.files[0]);
       }
@@ -621,22 +616,36 @@
     function renderResults(data) {
       document.getElementById("resultContainer").classList.remove("hidden");
 
-      // 1. Verdict Banner Styling based on risk level
-      const banner = document.getElementById("verdictBanner");
+      // 0. The Bottom Line & Transparency
+      const takeawayBanner = document.getElementById("takeawayBanner");
+      const plainTakeawayText = document.getElementById("plainTakeawayText");
+      const transparencyEngine = document.getElementById("transparencyEngine");
+      const userQueryBadge = document.getElementById("userQueryBadge");
+
+      plainTakeawayText.innerText = data.plain_takeaway || data.verdict_title;
+      transparencyEngine.innerText = `⚡ ${data.analysis_engine || "AI Verified"}`;
+      userQueryBadge.innerText = data.query_summary ? `Topic: ${data.query_summary}` : "";
+
+      takeawayBanner.className = "rounded-2xl p-5 border shadow-xl transition-all";
+      if (data.risk_level === "RED_SCAM") {
+        takeawayBanner.classList.add("bg-rose-950/40", "border-rose-500/60");
+      } else if (data.risk_level === "YELLOW_SUSPICIOUS") {
+        takeawayBanner.classList.add("bg-amber-950/40", "border-amber-500/60");
+      } else {
+        takeawayBanner.classList.add("bg-emerald-950/40", "border-emerald-500/60");
+      }
+
+      // 1. Verdict & Deep Explanation
       const riskBadge = document.getElementById("riskBadge");
       const intentBadge = document.getElementById("intentBadge");
 
-      banner.className = "rounded-2xl p-5 border shadow-xl transition-all";
       if (data.risk_level === "RED_SCAM") {
-        banner.classList.add("bg-rose-950/30", "border-rose-500/50");
         riskBadge.className = "text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/40";
         riskBadge.innerText = "CRITICAL RISK";
       } else if (data.risk_level === "YELLOW_SUSPICIOUS") {
-        banner.classList.add("bg-amber-950/30", "border-amber-500/50");
         riskBadge.className = "text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40";
         riskBadge.innerText = "SUSPICIOUS / UNVERIFIED";
       } else {
-        banner.classList.add("bg-emerald-950/30", "border-emerald-500/50");
         riskBadge.className = "text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40";
         riskBadge.innerText = "VERIFIED SAFE";
       }
@@ -670,7 +679,7 @@
         redFlagsBox.classList.add("hidden");
       }
 
-      // 2. ALL ACTIONABLE SOLUTION PATHWAYS (New Section)
+      // 2. ALL ACTIONABLE SOLUTION PATHWAYS
       const solutionsCard = document.getElementById("solutionsCard");
       const solutionsList = document.getElementById("solutionsList");
       solutionsList.innerHTML = "";
@@ -776,19 +785,13 @@
 
       window.speechSynthesis.cancel();
 
-      // Read title + first paragraph for smooth listening
-      const summaryText = latestResponseData.explanation ? latestResponseData.explanation.split("\n\n")[0] : "";
-      const textToSpeak = `${latestResponseData.verdict_title}. ${summaryText}`;
+      const textToSpeak = `${latestResponseData.plain_takeaway || latestResponseData.verdict_title}. ${latestResponseData.explanation ? latestResponseData.explanation.split('\n\n')[0] : ''}`;
       const utterance = new SpeechSynthesisUtterance(textToSpeak);
       const language = document.getElementById("languageSelect").value;
 
-      if (language === "Telugu") {
-        utterance.lang = "te-IN";
-      } else if (language === "Hindi") {
-        utterance.lang = "hi-IN";
-      } else {
-        utterance.lang = "en-IN";
-      }
+      if (language === "Telugu") utterance.lang = "te-IN";
+      else if (language === "Hindi") utterance.lang = "hi-IN";
+      else utterance.lang = "en-IN";
 
       utterance.rate = 0.95;
       window.speechSynthesis.speak(utterance);
