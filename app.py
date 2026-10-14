@@ -21,11 +21,13 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Ensure static and demo_assets folders exist and mount them
-os.makedirs("static", exist_ok=True)
-os.makedirs("demo_assets", exist_ok=True)
-app.mount("/static", StaticFiles(directory="static"), name="static")
-app.mount("/demo_assets", StaticFiles(directory="demo_assets"), name="demo_assets")
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+static_dir = os.path.join(BASE_DIR, "static")
+demo_dir = os.path.join(BASE_DIR, "demo_assets")
+os.makedirs(static_dir, exist_ok=True)
+os.makedirs(demo_dir, exist_ok=True)
+app.mount("/static", StaticFiles(directory=static_dir), name="static")
+app.mount("/demo_assets", StaticFiles(directory=demo_dir), name="demo_assets")
 
 # Structured Output Schema for Multi-Agent Response
 class SolutionPathway(BaseModel):
@@ -563,11 +565,11 @@ def analyze_custom_dynamically(text: str, language: str, image_name: Optional[st
 
 @app.get("/")
 async def serve_home():
-    return FileResponse("static/index.html")
+    return FileResponse(os.path.join(BASE_DIR, "static", "index.html"))
 
 @app.get("/slides")
 async def serve_slides():
-    return FileResponse("slides.html")
+    return FileResponse(os.path.join(BASE_DIR, "slides.html"))
 
 @app.get("/api/health")
 async def health_check():
